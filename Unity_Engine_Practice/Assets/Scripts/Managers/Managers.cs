@@ -9,26 +9,28 @@ using UnityEngine;
 // 그냥 MonoBehaviour를 붙이고 빈오브젝트를 만들어서 컴포넌트를 붙이자!
 public class Managers : MonoBehaviour
 {
-    static Managers instance; // 유일성이 보장된다
-    public static Managers GetInstance() { return instance; } // 유일한 매니저를 갖고 온다
+    static Managers s_instance; // 유일성이 보장된다
+    public static Managers Instance { get { Init(); return s_instance; } } // 유일한 매니저를 갖고 온다
+
+    // 어차피 Managers가 하나밖에 없으므로 그냥 반환해줌
+    InputManager _input = new InputManager();
+    public static InputManager Input { get { return Instance._input; } }
 
 
     void Start()
     {
-        instance = this;
-        
-
+            Init();
     }
 
 
     void Update()
     {
-        
+        _input.OnUpdate();
     }
 
     static void Init()
     {
-        if (instance == null)
+        if (s_instance == null)
         {
             GameObject go = GameObject.Find("@Managers");
             if (go == null)
@@ -38,9 +40,7 @@ public class Managers : MonoBehaviour
             }
 
             DontDestroyOnLoad(go);
-            instance = go.GetComponent<Managers>();
+            s_instance = go.GetComponent<Managers>();
         }
-       
-        
     }
 }
