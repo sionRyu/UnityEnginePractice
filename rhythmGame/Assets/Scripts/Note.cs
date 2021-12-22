@@ -14,8 +14,6 @@ public class Note : MonoBehaviour
 
     void Update()
     {
-        note.transform.position.z -= speed * Time.deltaTime;
+        
     }
-
-    int calculBpm
 }
